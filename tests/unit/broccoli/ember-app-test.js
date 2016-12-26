@@ -790,6 +790,7 @@ describe('broccoli/ember-app', function() {
       expect(outputFile).to.be.instanceof(Array);
       expect(outputFile.indexOf('vendor/moment.js')).to.equal(outputFile.length - 1);
     });
+
     it('appends dependencies', function() {
       app.import('vendor/moment.js', {type: 'vendor'});
 
@@ -824,6 +825,24 @@ describe('broccoli/ember-app', function() {
 
       expect(outputFile).to.be.instanceof(Array);
       expect(outputFile.indexOf('vendor/moment.js')).to.equal(outputFile.length - 1);
+    });
+
+    it('appends dependencies to a .js outputFile even if extension does not match', function() {
+      app.import('vendor/moment.1', {outputFile: '/assets/vendor.js'});
+
+      var outputFile = app._scriptOutputFiles['/assets/vendor.js'];
+
+      expect(outputFile).to.be.instanceof(Array);
+      expect(outputFile.indexOf('vendor/moment.1')).to.equal(outputFile.length - 1);
+    });
+
+    it('appends dependencies to a .css outputFile even if extension does not match', function() {
+      app.import('vendor/moment.1', {outputFile: '/assets/vendor.css'});
+
+      var outputFile = app._scriptOutputFiles['/assets/vendor.css'];
+
+      expect(outputFile).to.be.instanceof(Array);
+      expect(outputFile.indexOf('vendor/moment.1')).to.equal(outputFile.length - 1);
     });
 
     it('defaults to development if production is not set', function() {
